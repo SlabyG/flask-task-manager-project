@@ -27,7 +27,7 @@ def get_tasks():
 @app.route("/register", methods=["Get", "POST"])
 def register():
     if request.method == "POST":
-        #check if username alredy exists in db
+        # check if username alredy exists in db
         existing_user = mongo.db.users.find_one(
             {"username": request.form.get("username").lower()})
 
@@ -80,10 +80,10 @@ def login():
 
 @app.route("/profile/<username>", methods=["GET", "POST"])
 def profile(username):
-    #grab the session user's username from db
+    # grab the session user's username from db
     username = mongo.db.users.find_one(
         {"username": session["user"]})["username"]
-    
+
     if session["user"]:
         return render_template("profile.html", username=username)
 
@@ -96,6 +96,11 @@ def logout():
     flash("You have been logged out")
     session.pop("user")
     return redirect(url_for("login"))
+
+
+@app.route("/add_task")
+def add_task():
+    return render_template("add_task.html")
 
 
 if __name__ == "__main__":
